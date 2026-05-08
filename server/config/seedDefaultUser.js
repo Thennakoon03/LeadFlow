@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import Lead from "../models/Lead.js";
 import User from "../models/User.js";
 
 const seedDefaultUser = async () => {
@@ -8,12 +9,14 @@ const seedDefaultUser = async () => {
       email: "maya.thompson@leadflowcrm.com",
       password: "LeadFlow2026",
       legacyEmails: ["admin@example.com"],
+      legacyNames: ["Admin User"],
     },
     {
       name: "Daniel Reyes",
       email: "daniel.reyes@leadflowcrm.com",
       password: "LeadFlow2026",
       legacyEmails: ["opsadmin@example.com"],
+      legacyNames: ["Sarah Johnson"],
     },
   ];
 
@@ -30,6 +33,16 @@ const seedDefaultUser = async () => {
       existingUser.email = seedUser.email;
       existingUser.password = hashedPassword;
       await existingUser.save();
+      await Lead.updateMany(
+        {
+          assignedSalesperson: {
+            $in: [...(seedUser.legacyNames || []), seedUser.name],
+          },
+        },
+        {
+          $set: { assignedSalesperson: seedUser.name },
+        }
+      );
       console.log(`Seeded user updated: ${seedUser.email}`);
       continue;
     }
@@ -39,6 +52,16 @@ const seedDefaultUser = async () => {
       email: seedUser.email,
       password: hashedPassword,
     });
+    await Lead.updateMany(
+      {
+        assignedSalesperson: {
+          $in: seedUser.legacyNames || [],
+        },
+      },
+      {
+        $set: { assignedSalesperson: seedUser.name },
+      }
+    );
 
     console.log(`Seeded user created: ${seedUser.email}`);
   }
