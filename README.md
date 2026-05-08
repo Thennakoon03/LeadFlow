@@ -238,13 +238,6 @@ The application was tested manually by:
 
 This project focused on building a practical CRM workflow end to end rather than maximizing scope. The main priority was to keep the backend clean, make the lead lifecycle clear, and deliver a frontend that feels like a usable internal sales tool. If I had more time, I would add automated tests, stronger role handling, and a more advanced reporting layer with server-side pagination and analytics.
 
-## Demo Video
-
-Add your demo video link here before submission:
-
-```text
-<paste Loom / Drive / YouTube demo link here>
-```
 
 ## Submission Checklist
 
