@@ -237,17 +237,3 @@ The application was tested manually by:
 ## Reflection
 
 This project focused on building a practical CRM workflow end to end rather than maximizing scope. The main priority was to keep the backend clean, make the lead lifecycle clear, and deliver a frontend that feels like a usable internal sales tool. If I had more time, I would add automated tests, stronger role handling, and a more advanced reporting layer with server-side pagination and analytics.
-
-
-## Submission Checklist
-
-- Full-stack app runs locally
-- MongoDB persistence is enabled
-- Authentication is implemented
-- Lead CRUD is implemented
-- Notes are implemented
-- Dashboard metrics are implemented
-- Search and filters are implemented
-- README includes setup and usage instructions
-- Demo credentials are included
-- Demo video link section is ready to fill in
