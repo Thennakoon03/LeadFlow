@@ -47,6 +47,10 @@ const leadSchema = new mongoose.Schema(
       enum: leadStatuses,
       default: "New",
     },
+    hasBeenQualified: {
+      type: Boolean,
+      default: false,
+    },
     estimatedDealValue: {
       type: Number,
       required: true,

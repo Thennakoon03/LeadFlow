@@ -3,7 +3,13 @@ import Lead from "../models/Lead.js";
 
 const createLead = async (req, res) => {
   try {
-    const lead = await Lead.create(req.body);
+    const payload = {
+      ...req.body,
+      hasBeenQualified:
+        req.body.status === "Qualified" || Boolean(req.body.hasBeenQualified),
+    };
+
+    const lead = await Lead.create(payload);
 
     return res.status(201).json({
       message: "Lead created successfully.",
@@ -67,16 +73,34 @@ const updateLead = async (req, res) => {
       });
     }
 
-    const updatedLead = await Lead.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const existingLead = await Lead.findById(id);
 
-    if (!updatedLead) {
+    if (!existingLead) {
       return res.status(404).json({
         message: "Lead not found.",
       });
     }
+
+    const nextStatus = req.body.status ?? existingLead.status;
+    let hasBeenQualified = existingLead.hasBeenQualified;
+
+    if (nextStatus === "New") {
+      hasBeenQualified = false;
+    } else if (nextStatus === "Qualified" || req.body.hasBeenQualified) {
+      hasBeenQualified = true;
+    }
+
+    const updatedLead = await Lead.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+        hasBeenQualified,
+      },
+      {
+      new: true,
+      runValidators: true,
+      }
+    );
 
     return res.status(200).json({
       message: "Lead updated successfully.",
